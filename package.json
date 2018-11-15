@@ -19,7 +19,7 @@
     "build": "rollup -c",
     "start": "rollup -c -w",
     "prepare": "yarn run build",
-    "predeploy": "cd example && yarn install && yarn run build && yarn run styleguide:build",
+    "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build"
