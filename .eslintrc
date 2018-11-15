@@ -1,23 +1,28 @@
 {
-  "parser": "babel-eslint",
   "extends": [
-    "standard",
-    "standard-react"
+    "react-app",
+    "prettier",
+    "prettier/react",
+    "plugin:jsx-a11y/recommended"
   ],
-  "env": {
-    "es6": true
-  },
   "plugins": [
-    "react"
+    "react",
+    "prettier",
+    "jsx-a11y"
   ],
   "parserOptions": {
-    "sourceType": "module"
+    "ecmaVersion": 2016,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "jest": true
   },
   "rules": {
-    // don't force es6 functions to include space before paren
-    "space-before-function-paren": 0,
-
-    // allow specifying true explicitly for boolean props
-    "react/jsx-boolean-value": 0
+    "prettier/prettier": ["error", {"singleQuote": true}]
   }
 }
