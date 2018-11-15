@@ -26,6 +26,8 @@ const DefaultPrevious = ({ onClick, disabled }) => (
  */
 class Carousel extends React.Component {
   static propTypes = {
+    /** An array of items */
+    items: PropTypes.array,
     /** A function that return a React element for Carousel's item*/
     renderItem: PropTypes.func.isRequired,
     /** A function that return a key for given item*/
@@ -39,6 +41,10 @@ class Carousel extends React.Component {
       stiffness: PropTypes.number,
       damping: PropTypes.number
     }).isRequired,
+    /** Callback when carousel moves forward */
+    onNext: PropTypes.func,
+    /** Callback when carousel moves backward */
+    onPrevious: PropTypes.func,
     /** A number of visible items */
     blocks: PropTypes.number,
     /** A className for container an item */
@@ -59,8 +65,9 @@ class Carousel extends React.Component {
   };
 
   render() {
-    const { items, blocks, preset } = this.props;
+    const { items, blocks, preset, getKey } = this.props;
     const { index } = this.state;
+
     return (
       <div className={[styles.container, this.props.rootClassName].join(' ')}>
         {this.props.renderPrevious({
@@ -69,6 +76,7 @@ class Carousel extends React.Component {
         })}
         <StaggeredMotion
           defaultStyles={this.styles()}
+          key={items.length}
           styles={prevInterpolatedStyles =>
             prevInterpolatedStyles.map((style, i) => ({
               ...style,
@@ -99,8 +107,8 @@ class Carousel extends React.Component {
                       styles.slide,
                       this.props.itemContainerClassName
                     ].join(' ')}
-                    key={style.key}
-                    data-id={style.key}
+                    key={getKey(items[style.index])}
+                    data-id={getKey(items[style.index])}
                     style={{
                       ...style,
                       width: `${100 / blocks}%`,
@@ -122,26 +130,33 @@ class Carousel extends React.Component {
     );
   }
   nextClickHandler = () => {
-    const nextIndex = this.state.index + this.props.blocks;
-    this.setState({
-      index: this.isValidIndex(nextIndex + this.props.blocks)
-        ? nextIndex
-        : this.props.items.length - this.props.blocks
-    });
+    const { blocks, onNext, items } = this.props;
+    const nextIndex = this.state.index + blocks;
+    this.setState(
+      {
+        index: this.isValidIndex(nextIndex + blocks)
+          ? nextIndex
+          : items.length - blocks
+      },
+      () => onNext && onNext(this.state.index)
+    );
   };
 
   previousClickHandler = () => {
-    const previousIndex = this.state.index - this.props.blocks;
-    this.setState({
-      index: this.isValidIndex(previousIndex) ? previousIndex : 0
-    });
+    const { onPrevious, blocks } = this.props;
+    const previousIndex = this.state.index - blocks;
+    this.setState(
+      {
+        index: this.isValidIndex(previousIndex) ? previousIndex : 0
+      },
+      () => onPrevious && onPrevious(this.state.index)
+    );
   };
   isValidIndex = index => index >= 0 && index < this.props.items.length;
 
   styles = () => {
     const { getKey, items } = this.props;
     return items.map((item, index) => ({
-      key: getKey(item, index),
       index: index,
       x: index * 100
     }));
