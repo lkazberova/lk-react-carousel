@@ -23,7 +23,7 @@ Carousel example with one visible item
       />
     )}
   />
-</div>;
+</div>
 ```
 Carousel example with four visible items
 ```js
