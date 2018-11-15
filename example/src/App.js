@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Carousel from 'react-carousel';
+import Carousel from 'lk-react-carousel';
 import samples from './samples';
 import styles from './App.module.css';
 

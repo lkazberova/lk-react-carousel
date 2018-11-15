@@ -1,6 +1,6 @@
 {
-  "name": "react-carousel-example",
-  "homepage": "https://lkazberova.github.io/react-carousel",
+  "name": "lk-react-carousel-example",
+  "homepage": "https://lkazberova.github.io/lk-react-carousel",
   "version": "0.0.0",
   "license": "MIT",
   "private": true,
@@ -9,7 +9,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "^2.0.1",
-    "react-carousel": "link:.."
+    "lk-react-carousel": "link:.."
   },
   "scripts": {
     "start": "react-scripts start",
